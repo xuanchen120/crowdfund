@@ -1,6 +1,6 @@
 <?php
 
-namespace Xuanchen\CrowdFund\Controllers;
+namespace XuanChen\CrowdFund\Controllers;
 
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
