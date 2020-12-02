@@ -23,12 +23,39 @@ class ServiceProvider extends LaravelServiceProvider
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations/');
         }
 
+    }
+
+    /**
+     * Notes: 设置路由
+     * @Author: 玄尘
+     * @Date  : 2020/12/2 15:08
+     */
+    public function setRoute()
+    {
+        //总后台
         Route::group([
             'prefix'     => config('admin.route.prefix'),
-            'namespace'  => 'Xuanchen\CrowdFund\Controllers',
+            'namespace'  => 'XuanChen\CrowdFund\Controllers',
             'middleware' => config('admin.route.middleware'),
         ], function (Router $router) {
-            $router->resource(config('xuanchen.routers.crowdfunds'), 'CrowdfundController');
+            $router->resource(config('crowdfund.routers.admin.crowdfunds'), 'CrowdfundController');
+        });
+
+        //商家后台
+        Route::group([
+            'prefix'     => config('seller.route.prefix'),
+            'namespace'  => 'XuanChen\CrowdFund\Controllers',
+            'middleware' => config('seller.route.need_auth'),
+        ], function (Router $router) {
+            $router->resource(config('crowdfund.routers.seller.crowdfunds'), 'SellerCrowdfundController');
+        });
+        //手机端
+        Route::group([
+            'prefix'     => config('api.route.prefix'),
+            'namespace'  => 'XuanChen\CrowdFund\Controllers',
+            'middleware' => config('api.route.middleware_auth'),
+        ], function (Router $router) {
+            $router->resource(config('crowdfund.routers.api.crowdfunds'), 'ApiCrowdfundController');
         });
     }
 

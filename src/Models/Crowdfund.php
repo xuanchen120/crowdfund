@@ -2,17 +2,16 @@
 
 namespace XuanChen\CrowdFund\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
 
 class Crowdfund extends Model
 {
 
-    use HasCovers;
+    use HasCovers,
+        BelongsToCompany;
 
-    protected $guarded = [];
-
-    protected $dates   = [
+    protected $dates = [
         'start_at',
         'end_at',
     ];
@@ -24,17 +23,6 @@ class Crowdfund extends Model
         self::STATUS_OPEN  => '开启',
         self::STATUS_CLOSE => '关闭',
     ];
-
-    /**
-     * Notes: 关联店铺
-     * @Author: 玄尘
-     * @Date  : 2020/12/2 11:27
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function store()
-    {
-        return $this->belongsTo(config('crowdfund.store'));
-    }
 
     /**
      * Notes: 关联授权商品
