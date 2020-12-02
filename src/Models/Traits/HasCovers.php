@@ -1,6 +1,6 @@
 <?php
 
-namespace XuanChen\CrowdFund\Traits;
+namespace XuanChen\CrowdFund\Models\Traits;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;

@@ -1,6 +1,6 @@
 <?php
 
-namespace XuanChen\CrowdFund\Traits;
+namespace XuanChen\CrowdFund\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use XuanChen\CrowdFund\Models\Crowdfund;

@@ -3,9 +3,12 @@
 namespace XuanChen\CrowdFund\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use XuanChen\CrowdFund\Models\Traits\HasCovers;
 
 class Crowdfund extends Model
 {
+
+    use HasCovers;
 
     protected $guarded = [];
 
