@@ -18,10 +18,12 @@ class Crowdfund extends Model
 
     const STATUS_OPEN  = 1;
     const STATUS_CLOSE = 0;
+    const STATUS_OVER  = 2;
 
     const STATUS = [
         self::STATUS_OPEN  => '开启',
         self::STATUS_CLOSE => '关闭',
+        self::STATUS_OVER  => '完成',
     ];
 
     /**
@@ -32,6 +34,11 @@ class Crowdfund extends Model
     public function items()
     {
         return $this->hasMany(CrowdfundItem::class);
+    }
+
+    public function getStatusTextAttribute()
+    {
+        return self::STATUS[$this->status] ?? '未知';
     }
 
 }

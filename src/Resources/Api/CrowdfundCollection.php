@@ -1,6 +1,6 @@
 <?php
 
-namespace XuanChen\CrowdFund\Resources\Seller;
+namespace XuanChen\CrowdFund\Resources\Api;
 
 use App\Api\Resources\BaseCollection;
 
@@ -14,7 +14,11 @@ class CrowdfundCollection extends BaseCollection
                 'crowdfund_id' => $crowdfund->id,
                 'title'        => $crowdfund->title,
                 'cover'        => $crowdfund->cover_url,
-                'description'  => $crowdfund->description ?? '',
+                'amount'       => $crowdfund->amount,
+                'description'  => (string)$crowdfund->description,
+                'status_text'  => (string)$crowdfund->status_text,
+                'start_at'     => $crowdfund->start_at->format('Y-m-d H:i:s'),
+                'end_at'       => $crowdfund->end_at->format('Y-m-d H:i:s'),
                 'created_at'   => $crowdfund->created_at->format('Y-m-d H:i:s'),
             ];
         });

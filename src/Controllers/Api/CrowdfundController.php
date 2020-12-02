@@ -4,7 +4,9 @@ namespace XuanChen\CrowdFund\Controllers\Api;
 
 use App\Api\Controllers\Controller;
 use App\Models\Company;
+use Illuminate\Http\Request;
 use XuanChen\CrowdFund\Models\Crowdfund;
+use XuanChen\CrowdFund\Resources\Api\CrowdfundCollection;
 
 class CrowdfundController extends Controller
 {
@@ -19,11 +21,12 @@ class CrowdfundController extends Controller
         $company_id = $request->company_id;
 
         $lists = Crowdfund::latest()
+                          ->shown()
                           ->where('company_id', $company_id)
                           ->where('status', 1)
                           ->paginate();
 
-        return $this->success(new CrowdfundCollection($articles));
+        return $this->success(new CrowdfundCollection($lists));
     }
 
 }
