@@ -16,7 +16,7 @@ class CreateCrowdfundOrdersTable extends Migration
         Schema::create('crowdfund_orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->comment('购买人');
-            $table->unsignedBigInteger('store_id')->comment('所属店铺');
+            $table->unsignedBigInteger('company_id')->comment('所属企业');
             $table->unsignedBigInteger('crowdfund_item_id');
             $table->string('state');
             $table->decimal('amount', 10, 2);

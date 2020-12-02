@@ -15,7 +15,7 @@ class CreateCrowdfundsTable extends Migration
     {
         Schema::create('crowdfunds', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('company_id');
             $table->string('title');
             $table->string('cover')->nullable();
             $table->string('description')->nullable();
