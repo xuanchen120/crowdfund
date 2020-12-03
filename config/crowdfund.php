@@ -6,13 +6,10 @@ return [
 
     //后台管理路由
     'routers'      => [
-        'admin'  => [
+        'admin' => [
             'crowdfunds' => 'crowdfunds',
         ],
-        'api'    => [
-            'crowdfunds' => 'crowdfunds',
-        ],
-        'seller' => [
+        'api'   => [
             'crowdfunds' => 'crowdfunds',
         ],
     ],

@@ -17,11 +17,12 @@ class CreateCrowdfundCategoriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->index();
             $table->unsignedBigInteger('parent_id')->default(0)->index();
-            $table->string('name');
+            $table->string('title');
             $table->string('remark');
             $table->string('cover')->nullable();
             $table->text('description')->nullable();
             $table->boolean('status')->default(0);
+            $table->boolean('order')->default(0);
             $table->timestamps();
         });
     }

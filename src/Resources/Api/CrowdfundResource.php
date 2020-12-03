@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Resources\Article;
+namespace XuanChen\CrowdFund\Resources\Api;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -10,15 +10,16 @@ class CrowdfundResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'crowdfund_id' => $crowdfund->id,
-            'title'        => $crowdfund->title,
-            'cover'        => $crowdfund->cover_url,
-            'amount'       => $crowdfund->amount,
-            'description'  => (string)$crowdfund->description,
-            'status_text'  => (string)$crowdfund->status_text,
-            'start_at'     => $crowdfund->start_at->format('Y-m-d H:i:s'),
-            'end_at'       => $crowdfund->end_at->format('Y-m-d H:i:s'),
-            'created_at'   => $crowdfund->created_at->format('Y-m-d H:i:s'),
+            'crowdfund_id' => $this->id,
+            'title'        => $this->title,
+            'cover'        => $this->cover_url,
+            'amount'       => $this->amount,
+            'items'        => CrowdfundItemResource::collection($this->items),
+            'description'  => (string)$this->description,
+            'status_text'  => (string)$this->status_text,
+            'start_at'     => (string)$this->start_at,
+            'end_at'       => (string)$this->end_at,
+            'created_at'   => (string)$this->created_at,
         ];
     }
 

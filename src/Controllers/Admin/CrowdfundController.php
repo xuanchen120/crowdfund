@@ -46,9 +46,9 @@ class CrowdfundController extends AdminController
                  ->removable()
                  ->uniqueName();
 
-            $companys = Company::where('status', 1)
-                               ->pluck('name', 'id')
-                               ->toArray();
+            $companys = config('crowdfund.companyModel')::where('status', 1)
+                                                        ->pluck('name', 'id')
+                                                        ->toArray();
 
             $form->select('company_id', '所属企业')
                  ->options($companys)

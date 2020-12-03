@@ -57,7 +57,7 @@ class ServiceProvider extends LaravelServiceProvider
             'namespace'  => 'XuanChen\CrowdFund\Controllers',
             'middleware' => config('api.route.middleware_auth'),
         ], function (Router $router) {
-            $router->resource(config('crowdfund.routers.api.crowdfunds'), 'Api\CrowdfundController');
+            $router->apiResource(config('crowdfund.routers.api.crowdfunds'), 'Api\CrowdfundController');
         });
     }
 
