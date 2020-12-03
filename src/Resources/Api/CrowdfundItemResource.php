@@ -13,10 +13,11 @@ class CrowdfundItemResource extends JsonResource
             'crowdfund_item_id' => $this->id,
             'title'             => $this->title,
             'time'              => $this->time,
-            'content'           => $this->content,
+            'remark'            => $this->remark,
             'shipping'          => $this->shipping,
             'price'             => $this->price,
-            'quantity'          => $this->quantity,
+            'quantity'          => $this->quantity > 0 ?: '不限制',
+            'type'              => $this->type,
             'created_at'        => (string)$this->created_at,
         ];
     }

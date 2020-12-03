@@ -42,22 +42,13 @@ class ServiceProvider extends LaravelServiceProvider
             $router->resource('crowdfundcategorys', 'Admin\CategoryController');
         });
 
-        //商家后台
-        Route::group([
-            'prefix'     => config('seller.route.prefix'),
-            'namespace'  => 'XuanChen\CrowdFund\Controllers',
-            'middleware' => config('seller.route.need_auth'),
-        ], function (Router $router) {
-            $router->resource(config('crowdfund.routers.seller.crowdfunds'), 'Seller\CrowdfundController');
-        });
-
         //手机端
         Route::group([
             'prefix'     => config('api.route.prefix'),
             'namespace'  => 'XuanChen\CrowdFund\Controllers',
             'middleware' => config('api.route.middleware_auth'),
         ], function (Router $router) {
-            $router->apiResource(config('crowdfund.routers.api.crowdfunds'), 'Api\CrowdfundController');
+            $router->Resource(config('crowdfund.routers.api.crowdfunds'), 'Api\CrowdfundController');
         });
     }
 

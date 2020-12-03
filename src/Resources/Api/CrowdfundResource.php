@@ -12,7 +12,8 @@ class CrowdfundResource extends JsonResource
         return [
             'crowdfund_id' => $this->id,
             'title'        => $this->title,
-            'cover'        => $this->cover_url,
+            'pictures'     => $this->pictures_url,
+            'video_url'    => $this->video_url,
             'amount'       => $this->amount,
             'items'        => CrowdfundItemResource::collection($this->items),
             'description'  => (string)$this->description,

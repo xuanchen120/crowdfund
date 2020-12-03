@@ -36,4 +36,36 @@ trait HasCovers
         });
     }
 
+    /**
+     * Notes: 拼接视频地址
+     * @Author: 玄尘
+     * @Date  : 2020/12/3 11:31
+     * @return string
+     */
+    public function getVideoUrlAttribute()
+    {
+        if ($this->video) {
+            return Storage::url($this->video);
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Notes: 获取一张图片
+     * @Author: 玄尘
+     * @Date  : 2020/12/3 11:33
+     */
+    public function getOneCoverAttribute()
+    {
+        if ($this->cover_url) {
+            return $this->cover_url;
+        }
+        if ($this->pictures_url) {
+            return $this->pictures_url->first();
+        }
+
+        return '';
+    }
+
 }

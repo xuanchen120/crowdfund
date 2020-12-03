@@ -18,7 +18,7 @@ class CreateCrowdfundCategoriesTable extends Migration
             $table->unsignedBigInteger('company_id')->index();
             $table->unsignedBigInteger('parent_id')->default(0)->index();
             $table->string('title');
-            $table->string('remark');
+            $table->string('remark')->nullable();
             $table->string('cover')->nullable();
             $table->text('description')->nullable();
             $table->boolean('status')->default(0);

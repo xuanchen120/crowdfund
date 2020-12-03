@@ -4,16 +4,22 @@ namespace XuanChen\CrowdFund\Models;
 
 use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
+use Jason\Address\Traits\HasArea;
 
 class Crowdfund extends Model
 {
 
     use HasCovers,
-        BelongsToCompany;
+        BelongsToCompany,
+        HasArea;
 
     protected $dates = [
         'start_at',
         'end_at',
+    ];
+
+    protected $casts = [
+        'pictures' => 'array',
     ];
 
     const STATUS_OPEN  = 1;
@@ -39,6 +45,11 @@ class Crowdfund extends Model
     public function getStatusTextAttribute()
     {
         return self::STATUS[$this->status] ?? '未知';
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(CrowdfundCategory::class, 'crowdfund_category_id');
     }
 
 }

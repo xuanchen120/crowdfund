@@ -17,6 +17,7 @@ class CreateCrowdfundItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('crowdfund_id')->index();
             $table->string('title');
+            $table->boolean('type')->comment('类型：1正常 2无条件支持');
             $table->string('time')->comment('回报时间');
             $table->string('content')->comment('回报内容');
             $table->string('shipping')->comment('配送说明');
