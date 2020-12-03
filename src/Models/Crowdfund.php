@@ -5,13 +5,15 @@ namespace XuanChen\CrowdFund\Models;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
 use Jason\Address\Traits\HasArea;
+use Overtrue\LaravelLike\Traits\Likeable;
 
 class Crowdfund extends Model
 {
 
     use HasCovers,
         BelongsToCompany,
-        HasArea;
+        HasArea,
+        Likeable;
 
     protected $dates = [
         'start_at',

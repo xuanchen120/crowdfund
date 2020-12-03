@@ -125,4 +125,48 @@ class CrowdfundController extends Controller
         }
     }
 
+    /**
+     * Notes: description
+     * @Author: 玄尘
+     * @Date  : 2020/12/3 16:33
+     */
+    public function like(Request $request)
+    {
+        $user = config('crowdfund.Api')::user();
+
+        $crowdfund_id = $request->crowdfund_id;
+        $info         = Crowdfund::find($crowdfund_id);
+
+        if (!$info) {
+            return $this->failed('未找到数据');
+        }
+
+        $user->like($info);
+
+        return $this->success('关注成功');
+    }
+
+    /**
+     * Notes: 取消关注
+     * @Author: 玄尘
+     * @Date  : 2020/12/3 17:02
+     * @param \Illuminate\Http\Request $request
+     * @return mixed
+     */
+    public function unlike(Request $request)
+    {
+        $user = config('crowdfund.Api')::user();
+
+        $crowdfund_id = $request->crowdfund_id;
+        $info         = Crowdfund::find($crowdfund_id);
+
+        if (!$info) {
+            return $this->failed('未找到数据');
+        }
+
+        $res = $user->unlike($info);
+
+        return $this->success('取消关注成功');
+    }
+
 }
