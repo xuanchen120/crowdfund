@@ -29,9 +29,11 @@ class CrowdfundController extends AdminController
         $grid->column('status', '状态')
              ->using(Crowdfund::STATUS)
              ->label([
-                 Crowdfund::STATUS_OPEN  => 'info',
-                 Crowdfund::STATUS_CLOSE => 'success',
-                 Crowdfund::STATUS_OVER  => 'danger',
+                 Crowdfund::STATUS_CLOSE   => 'danger',
+                 Crowdfund::STATUS_COMING  => 'warning',
+                 Crowdfund::STATUS_OPEN    => 'info',
+                 Crowdfund::STATUS_SUCCESS => 'primary',
+                 Crowdfund::STATUS_OVER    => 'default',
              ]);
 
         return $grid;
@@ -98,11 +100,6 @@ class CrowdfundController extends AdminController
                 $form->textarea('time', '回报时间')->required();
                 $form->ueditor('remark', '回报内容')->required();
                 $form->textarea('shipping', '配送说明')->required();
-
-                $form->radio('type', '类型')
-                     ->options(CrowdfundItem::TYPES)
-                     ->default(CrowdfundItem::TYPE_GOODS)
-                     ->required();
 
                 $form->number('price', '金额')
                      ->default(0)

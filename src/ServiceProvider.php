@@ -35,22 +35,32 @@ class ServiceProvider extends LaravelServiceProvider
         //总后台
         Route::group([
             'prefix'     => config('admin.route.prefix'),
-            'namespace'  => 'XuanChen\CrowdFund\Controllers',
+            'namespace'  => 'XuanChen\CrowdFund\Controllers\Admin',
             'middleware' => config('admin.route.middleware'),
         ], function (Router $router) {
-            $router->resource('crowdfunds', 'Admin\CrowdfundController');
-            $router->resource('crowdfundcategorys', 'Admin\CategoryController');
+            $router->resource('crowdfunds', 'CrowdfundController');
+            $router->resource('crowdfundcategorys', 'CategoryController');
         });
 
         //手机端
         Route::group([
             'prefix'     => config('api.route.prefix'),
-            'namespace'  => 'XuanChen\CrowdFund\Controllers',
+            'namespace'  => 'XuanChen\CrowdFund\Controllers\Api',
             'middleware' => config('api.route.middleware_auth'),
         ], function (Router $router) {
-            $router->post(config('crowdfund.routers.api.crowdfunds') . '/like', 'Api\CrowdfundController@like');
-            $router->post(config('crowdfund.routers.api.crowdfunds') . '/unlike', 'Api\CrowdfundController@unlike');
-            $router->Resource(config('crowdfund.routers.api.crowdfunds'), 'Api\CrowdfundController');
+            $router->get('ajax/crowdfundcategory', 'AjaxController@category');
+            $router->post(config('crowdfund.routers.api.crowdfunds') . '/like', 'CrowdfundController@like');
+            $router->post(config('crowdfund.routers.api.crowdfunds') . '/unlike', 'CrowdfundController@unlike');
+            $router->Resource(config('crowdfund.routers.api.crowdfunds'), 'CrowdfundController');
+        });
+
+        //企业后台
+        Route::group([
+            'prefix'     => config('seller.route.prefix'),
+            'namespace'  => 'XuanChen\CrowdFund\Controllers\Seller',
+            'middleware' => config('seller.route.need_auth'),
+        ], function (Router $router) {
+            $router->Resource(config('crowdfund.routers.api.crowdfunds'), 'CrowdfundController');
         });
     }
 

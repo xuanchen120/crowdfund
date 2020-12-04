@@ -2,6 +2,9 @@
 
 namespace XuanChen\CrowdFund\Models;
 
+use Carbon\Carbon;
+use Jason\Order\Models\Order;
+use Jason\Order\Models\OrderItem;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCrowdfund;
 use Jason\Order\Contracts\ShouldOrder;
 
@@ -10,22 +13,9 @@ class CrowdfundItem extends Model implements ShouldOrder
 
     use BelongsToCrowdfund;
 
-    const TYPE_GOODS   = 1;
-    const TYPE_SUPPORT = 2;
-
-    const TYPES = [
-        self::TYPE_GOODS   => '有偿',
-        self::TYPE_SUPPORT => '无偿',
-    ];
-
     public function crowdfund()
     {
         return $this->belongsTo(Crowdfund::class);
-    }
-
-    public function getTypeTextAttribute()
-    {
-        return self::TYPES[$this->type] ?? '未知';
     }
 
     /**
@@ -119,6 +109,63 @@ class CrowdfundItem extends Model implements ShouldOrder
     public function getItemPrice()
     {
         return $this->price;
+    }
+
+    /**
+     * Notes: 是否可以购买
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 11:09
+     * @return mixed
+     */
+    public function canPay()
+    {
+        return $this->crowdfund->canPay();
+    }
+
+    /**
+     * Notes: 关联订单商品表
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 11:10
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function orderItem()
+    {
+        return $this->morphOne(OrderItem::class, 'item');
+
+    }
+
+    /**
+     * Notes: 支持
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 11:11
+     */
+    public function getAllUsersAttribute()
+    {
+        return Order::whereHas('items', function ($q) {
+            $q->where('item_type', get_class($this))->where('item_id', $this->id);
+        })->whereIn('state', [
+            Order::ORDER_PAID,
+            Order::ORDER_DELIVER,
+            Order::ORDER_DELIVERED,
+            Order::ORDER_SIGNED,
+        ])->count();
+    }
+
+    /**
+     * Notes: 支持金额
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 11:11
+     */
+    public function getAllTotalAttribute()
+    {
+        return Order::whereHas('items', function ($q) {
+            $q->where('item_type', get_class($this))->where('item_id', $this->id);
+        })->whereIn('state', [
+            Order::ORDER_PAID,
+            Order::ORDER_DELIVER,
+            Order::ORDER_DELIVERED,
+            Order::ORDER_SIGNED,
+        ])->sum('amount');
     }
 
 }

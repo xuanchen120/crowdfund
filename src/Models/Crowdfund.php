@@ -2,6 +2,7 @@
 
 namespace XuanChen\CrowdFund\Models;
 
+use Carbon\Carbon;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
 use Jason\Address\Traits\HasArea;
@@ -24,14 +25,18 @@ class Crowdfund extends Model
         'pictures' => 'array',
     ];
 
-    const STATUS_OPEN  = 1;
-    const STATUS_CLOSE = 0;
-    const STATUS_OVER  = 2;
+    const STATUS_CLOSE   = 0;
+    const STATUS_OPEN    = 1;
+    const STATUS_COMING  = 2;
+    const STATUS_SUCCESS = 3;
+    const STATUS_OVER    = 4;
 
     const STATUS = [
-        self::STATUS_OPEN  => '开启',
-        self::STATUS_CLOSE => '关闭',
-        self::STATUS_OVER  => '完成',
+        self::STATUS_CLOSE   => '关闭',
+        self::STATUS_OPEN    => '进行中',
+        self::STATUS_COMING  => '即将上线',
+        self::STATUS_SUCCESS => '已成功',
+        self::STATUS_OVER    => '已结束',
     ];
 
     /**
@@ -49,9 +54,40 @@ class Crowdfund extends Model
         return self::STATUS[$this->status] ?? '未知';
     }
 
+    /**
+     * Notes: 关联分类
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 8:09
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category()
     {
         return $this->belongsTo(CrowdfundCategory::class, 'crowdfund_category_id');
+    }
+
+    public function canPay()
+    {
+        return in_array($this->status, [self::STATUS_OPEN]) && $this->end_at->gt(Carbon::now());
+    }
+
+    /**
+     * Notes: 支持人数
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 11:42
+     */
+    public function getAllUsersAttribute()
+    {
+        return $this->items->sum('all_users');
+    }
+
+    /**
+     * Notes: 支持金额
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 11:42
+     */
+    public function getAllTotalAttribute()
+    {
+        return $this->items->sum('all_total');
     }
 
 }

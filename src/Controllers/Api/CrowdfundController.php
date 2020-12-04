@@ -9,13 +9,16 @@ use App\Traits\PayOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Jason\Address\Models\Address;
+use Jason\Api\Api;
 use XuanChen\CrowdFund\Models\CrowdfundItem;
 use XuanChen\CrowdFund\Models\Crowdfund;
 use XuanChen\CrowdFund\Resources\Api\CrowdfundCollection;
 use XuanChen\CrowdFund\Resources\Api\CrowdfundResource;
+use XuanChen\CrowdFund\Resources\Api\AddressResource;
 use XuanChen\CrowdFund\Resources\Api\CrowdfundItemResource;
-use Jason\Order\Order;
 use Jason\Order\Item;
+use Carbon\Carbon;
+use Jason\Order\Facades\Order;
 
 class CrowdfundController extends Controller
 {
@@ -29,13 +32,18 @@ class CrowdfundController extends Controller
      */
     public function index(Request $request)
     {
-        $company_id = $request->company_id;
+        $company_id  = $request->company_id;
+        $category_id = $request->category_id;
 
-        $lists = Crowdfund::latest()
-                          ->shown()
-                          ->where('company_id', $company_id)
+        $lists = Crowdfund::withCount(['likes'])->where('company_id', $company_id)
+                          ->when($category_id, function ($q) use ($category_id) {
+                              $q->where('category_id', $category_id);
+                          })
                           ->where('start_at', '<=', Carbon::now()->format('Y-m-d'))
                           ->where('end_at', '>=', Carbon::now()->format('Y-m-d'))
+                          ->where('status', '>', 0)
+                          ->orderBy('status', 'asc')
+                          ->orderBy('created_at', 'asc')
                           ->paginate();
 
         return $this->success(new CrowdfundCollection($lists));
@@ -69,7 +77,12 @@ class CrowdfundController extends Controller
         $crowdfund_item_id = $request->crowdfund_item_id;
         $info              = CrowdfundItem::find($crowdfund_item_id);
 
-        return $this->success(new CrowdfundItemResource($info));
+        $data = [
+            'info'    => new CrowdfundItemResource($info),
+            'address' => AddressResource::collection(config('crowdfund.Api')::user()->addresses),
+        ];
+
+        return $this->success($data);
     }
 
     /**
@@ -90,6 +103,10 @@ class CrowdfundController extends Controller
 
             $info = CrowdfundItem::find($crowdfund_item_id);
 
+            if (!$info->canPay()) {
+                return $this->failed('创建订单失败');
+            }
+
             if ($info->type == CrowdfundItem::TYPE_SUPPORT) {
                 $info->price = $price;
             }
@@ -109,11 +126,11 @@ class CrowdfundController extends Controller
             $orderItems = [];
             array_push($orderItems, new Item($info, 1));
 
-            $orders = (new Order)->user($user)
-                                 ->address($address)
-                                 ->remark($remark)
-                                 ->type(2)
-                                 ->create($orderItems);
+            $orders = Order::user($user)
+                           ->address($address)
+                           ->remark($remark)
+                           ->type(2)
+                           ->create($orderItems);
 
             $trade_no = $this->AddPayments($orders);
 

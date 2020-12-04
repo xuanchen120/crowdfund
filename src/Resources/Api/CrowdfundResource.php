@@ -2,6 +2,7 @@
 
 namespace XuanChen\CrowdFund\Resources\Api;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CrowdfundResource extends JsonResource
@@ -14,10 +15,16 @@ class CrowdfundResource extends JsonResource
             'title'        => $this->title,
             'pictures'     => $this->pictures_url,
             'video_url'    => $this->video_url,
-            'amount'       => $this->amount,
+            'amount'       => $this->amount,//目标金额
+            'all_total'    => $this->all_total,//支持金额
+            'all_users'    => $this->all_users,//支持人数
             'items'        => CrowdfundItemResource::collection($this->items),
-            'description'  => (string)$this->description,
-            'status_text'  => (string)$this->status_text,
+            'description'  => $this->description,
+            'status_text'  => $this->status_text,
+            'status'       => $this->status,
+            'diffDays'     => $this->end_at->diffInDays(Carbon::now()),
+            'province'     => $this->province->name,
+            'city'         => $this->city->name,
             'start_at'     => (string)$this->start_at,
             'end_at'       => (string)$this->end_at,
             'created_at'   => (string)$this->created_at,
