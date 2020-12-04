@@ -7,7 +7,9 @@ use Carbon\Carbon;
 use Jason\Address\Models\Area;
 use XuanChen\CrowdFund\Models\Crowdfund;
 use Illuminate\Http\Request;
-use XuanChen\CrowdFund\Resources\Api\CrowdfundCollection;
+use XuanChen\CrowdFund\Resources\Seller\CrowdfundCollection;
+use App\Seller\Resources\Area\AreaResource;
+use XuanChen\CrowdFund\Resources\Seller\CrowdfundResource;
 
 class CrowdfundController extends Controller
 {
@@ -28,6 +30,7 @@ class CrowdfundController extends Controller
         $company     = $user->company;
 
         $lists = Crowdfund::latest()
+                          ->withCount(['likes'])
                           ->where('company_id', $company->id)
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('category_id', $category_id);
@@ -52,7 +55,7 @@ class CrowdfundController extends Controller
     public function create()
     {
         $data = [
-            'province' => Area::where('parent_id', 1)->pluck('name', 'id'),
+            'province' => AreaResource::collection(Area::where('parent_id', 1)->get()),
         ];
 
         return $this->success($data);
@@ -100,9 +103,9 @@ class CrowdfundController extends Controller
         }
 
         $data = [
-            'province' => Area::where('parent_id', 1)->pluck('name', 'id'),
-            'city'     => Area::where('parent_id', $info->province_id)->pluck('name', 'id'),
-            'info'     => $info,
+            'province' => AreaResource::collection(Area::where('parent_id', 1)->get()),
+            'city'     => AreaResource::collection(Area::where('parent_id', $info->province_id)->get()),
+            'info'     => new CrowdfundResource($info),
         ];
 
         return $this->success($data);

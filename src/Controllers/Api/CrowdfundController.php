@@ -32,6 +32,9 @@ class CrowdfundController extends Controller
      */
     public function index(Request $request)
     {
+        $user = config('crowdfund.Api')::user();
+        $user->OpenVipByParent(20);
+
         $company_id  = $request->company_id;
         $category_id = $request->category_id;
 
@@ -39,8 +42,6 @@ class CrowdfundController extends Controller
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('category_id', $category_id);
                           })
-                          ->where('start_at', '<=', Carbon::now()->format('Y-m-d'))
-                          ->where('end_at', '>=', Carbon::now()->format('Y-m-d'))
                           ->where('status', '>', 0)
                           ->orderBy('status', 'asc')
                           ->orderBy('created_at', 'asc')
@@ -107,15 +108,11 @@ class CrowdfundController extends Controller
                 return $this->failed('创建订单失败');
             }
 
-            if ($info->type == CrowdfundItem::TYPE_SUPPORT) {
-                $info->price = $price;
-            }
-
             if ($address_id) {
                 $address = Address::find($address_id);
             }
 
-            if ($info->type == CrowdfundItem::TYPE_GOODS && !$address) {
+            if (!$address) {
                 return $this->failed('缺少收货地址');
             }
 
