@@ -40,14 +40,16 @@ class CrowdfundController extends Controller
 
         $lists = Crowdfund::withCount(['likes'])->where('company_id', $company_id)
                           ->when($category_id, function ($q) use ($category_id) {
-                              $q->where('category_id', $category_id);
+                              $q->where('crowdfund_category_id', $category_id);
                           })
                           ->where('status', '>', 0)
                           ->orderBy('status', 'asc')
                           ->orderBy('created_at', 'asc')
                           ->paginate();
 
-        return $this->success(new CrowdfundCollection($lists));
+        $data = new CrowdfundCollection($lists);
+
+        return $this->success($data);
     }
 
     /***

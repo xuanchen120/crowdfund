@@ -90,4 +90,46 @@ class Crowdfund extends Model
         return $this->items->sum('all_total');
     }
 
+    /**
+     * Notes: 倒计时
+     * @Author: 玄尘
+     * @Date  : 2020/12/4 16:57
+     */
+    public function diffForHumans()
+    {
+        if ($this->start_at->gt(Carbon::now())) {
+            $seconds = (int)$this->start_at->diffInSeconds(Carbon::now(), true);
+
+            $duration = '';
+
+            if ($seconds <= 0) {
+                return $duration . '0秒';
+            }
+
+            [$day, $hour, $minute, $second] = explode(' ', gmstrftime('%j %H %M %S', $seconds));
+
+            $day -= 1;
+
+            if ($day > 0) {
+                $duration .= (int)$day . '天';
+            }
+            if ($hour > 0) {
+                $duration .= (int)$hour . '小时';
+            }
+
+            if ($minute > 0) {
+                $duration .= (int)$minute . '分钟';
+            }
+
+            if ($second > 0) {
+                $duration .= (int)$second . '秒';
+            }
+
+            return $duration;
+        }
+
+        return '0秒';
+
+    }
+
 }

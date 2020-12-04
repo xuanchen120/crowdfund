@@ -26,7 +26,7 @@ class CrowdfundCollection extends BaseCollection
                     'status_text'  => $crowdfund->status_text,
                     'status'       => $crowdfund->status,
                     'diffDays'     => $crowdfund->end_at->diffInDays(Carbon::now()),
-                    'openDiffDays' => $crowdfund->start_at->diffForHumans(Carbon::now()),
+                    'openDiffDays' => $crowdfund->diffForHumans(),
                     'likes'        => $crowdfund->likes_count,
                     //                    'start_at'     => $crowdfund->start_at->format('Y-m-d H:i:s'),
                     //                    'end_at'       => $crowdfund->end_at->format('Y-m-d H:i:s'),
