@@ -65,6 +65,12 @@ class Crowdfund extends Model
         return $this->belongsTo(CrowdfundCategory::class, 'crowdfund_category_id');
     }
 
+    /**
+     * Notes: 是否可以支持
+     * @Author: 玄尘
+     * @Date  : 2020/12/7 8:59
+     * @return bool
+     */
     public function canPay()
     {
         return in_array($this->status, [self::STATUS_OPEN]) && $this->end_at->gt(Carbon::now());

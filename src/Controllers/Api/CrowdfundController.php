@@ -158,8 +158,11 @@ class CrowdfundController extends Controller
         }
 
         $user->like($info);
+        $data = [
+            'likes' => $info->likes()->count(),
+        ];
 
-        return $this->success('关注成功');
+        return $this->success($data);
     }
 
     /**
