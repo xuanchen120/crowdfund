@@ -7,11 +7,16 @@ use Jason\Order\Models\Order;
 use Jason\Order\Models\OrderItem;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCrowdfund;
 use Jason\Order\Contracts\ShouldOrder;
+use XuanChen\CrowdFund\Models\Traits\HasCovers;
 
 class CrowdfundItem extends Model implements ShouldOrder
 {
 
-    use BelongsToCrowdfund;
+    use BelongsToCrowdfund, HasCovers;
+
+    protected $casts = [
+        'pictures' => 'array',
+    ];
 
     public function crowdfund()
     {
