@@ -147,6 +147,7 @@ class CrowdfundController extends Controller
         if (!$info) {
             return $this->failed('数据获取失败');
         }
+
         if ($info->delete()) {
             return $this->success('删除成功');
         }

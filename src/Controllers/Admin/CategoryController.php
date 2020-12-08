@@ -69,10 +69,11 @@ class CategoryController extends AdminController
                 } else {
                     $payload = "<i class='fa fa-eye text-gray'></i> ";
                 }
+                $company = $category->company ? $category->company->name : '';
                 $payload .= " [ID:{$branch['id']}] - ";
                 $payload .= " <strong>{$branch['title']}</strong> ";
                 $payload .= " <small style='color:#999'>{$branch['description']}</small>";
-                $payload .= " <small style='color:#999'>{$category->company->name}</small>";
+                $payload .= " <small style='color:#999'>{$company}</small>";
 
                 return $payload;
             });

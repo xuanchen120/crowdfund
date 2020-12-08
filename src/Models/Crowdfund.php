@@ -3,6 +3,7 @@
 namespace XuanChen\CrowdFund\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
 use Jason\Address\Traits\HasArea;
@@ -14,7 +15,8 @@ class Crowdfund extends Model
     use HasCovers,
         BelongsToCompany,
         HasArea,
-        Likeable;
+        Likeable,
+        SoftDeletes;
 
     protected $dates = [
         'start_at',
