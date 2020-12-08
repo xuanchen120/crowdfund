@@ -117,6 +117,17 @@ class CrowdfundItem extends Model implements ShouldOrder
     }
 
     /**
+     * Notes: 获取规格名称
+     * @Author: 玄尘
+     * @Date  : 2020/12/7 16:33
+     * @return mixed|string
+     */
+    public function getItemValue()
+    {
+        return '';
+    }
+
+    /**
      * Notes: 是否可以购买
      * @Author: 玄尘
      * @Date  : 2020/12/4 11:09

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use XuanChen\CrowdFund\Resources\Seller\CrowdfundCollection;
 use App\Seller\Resources\Area\AreaResource;
 use XuanChen\CrowdFund\Resources\Seller\CrowdfundResource;
+use XuanChen\CrowdFund\Requests\CrowdfundRequest;
 
 class CrowdfundController extends Controller
 {
@@ -26,9 +27,14 @@ class CrowdfundController extends Controller
         $status      = $request->status;
         $category_id = $request->category_id;
         $title       = $request->title;
-        $user        = config('crowdfund.Seller')::user();
-        $company     = $user->company;
 
+        $user = config('crowdfund.Seller')::user();
+
+        $company = $user->company;
+
+        if (!$company) {
+            return $this->failed('您还没有进行企业认证。');
+        }
         $lists = Crowdfund::latest()
                           ->withCount(['likes'])
                           ->where('company_id', $company->id)

@@ -37,10 +37,14 @@ class CrowdfundController extends Controller
 
         $company_id  = $request->company_id;
         $category_id = $request->category_id;
+        $handpick    = $request->handpick;
 
         $lists = Crowdfund::withCount(['likes'])->where('company_id', $company_id)
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('crowdfund_category_id', $category_id);
+                          })
+                          ->when($handpick, function ($q) use ($handpick) {
+                              $q->where('handpick', $handpick);
                           })
                           ->where('status', '>', 0)
                           ->orderBy('status', 'asc')
