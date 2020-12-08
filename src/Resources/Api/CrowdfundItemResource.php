@@ -20,6 +20,7 @@ class CrowdfundItemResource extends JsonResource
             'quantity'          => $this->quantity > 0 ?: '不限制',
             'all_users'         => $this->all_users,
             'all_total'         => $this->all_total,
+            'canPay'            => $this->canPay(),
             'created_at'        => (string)$this->created_at,
         ];
     }

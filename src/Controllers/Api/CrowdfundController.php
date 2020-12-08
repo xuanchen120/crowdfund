@@ -110,7 +110,7 @@ class CrowdfundController extends Controller
             $info = CrowdfundItem::find($crowdfund_item_id);
 
             if (!$info->canPay()) {
-                return $this->failed('创建订单失败');
+                return $this->failed('创建订单失败,当前状态不可支持');
             }
 
             if ($address_id) {

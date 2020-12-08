@@ -24,6 +24,24 @@ class CrowdfundController extends AdminController
         $grid = new Grid(new Crowdfund());
         $grid->model()->withCount('items')->latest();
 
+        $grid->filter(function (Grid\Filter $filter) {
+            $filter->column(1 / 2, function (Grid\Filter $filter) {
+                $filter->like('title', '项目名称');
+                $filter->like('company.name', '企业名');
+            });
+
+            $filter->column(1 / 2, function (Grid\Filter $filter) {
+                $filter->equal('category.id', '分类')
+                       ->select(CrowdfundCategory::where('status', 1)->pluck('title', 'id'));
+
+                $filter->equal('handpick', '精选')->radio([
+                    '' => '全部',
+                    1  => '是',
+                    0  => '否',
+                ]);
+            });
+        });
+
         $grid->column('id', '#ID#');
         $grid->column('title', '项目名称');
         $grid->column('company.name', '企业名');
