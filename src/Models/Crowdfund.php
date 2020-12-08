@@ -4,6 +4,7 @@ namespace XuanChen\CrowdFund\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
 use Jason\Address\Traits\HasArea;
@@ -16,7 +17,8 @@ class Crowdfund extends Model
         BelongsToCompany,
         HasArea,
         Likeable,
-        SoftDeletes;
+        SoftDeletes,
+        Notifiable;
 
     protected $dates = [
         'start_at',
@@ -27,18 +29,18 @@ class Crowdfund extends Model
         'pictures' => 'array',
     ];
 
-    const STATUS_CLOSE   = 0;
-    const STATUS_OPEN    = 1;
-    const STATUS_COMING  = 2;
-    const STATUS_SUCCESS = 3;
-    const STATUS_OVER    = 4;
+    const STATUS_CLOSE = 0;
+    const STATUS_OPEN  = 1;
+    //    const STATUS_COMING  = 2;
+    //    const STATUS_SUCCESS = 3;
+    //    const STATUS_OVER    = 4;
 
     const STATUS = [
-        self::STATUS_CLOSE   => '关闭',
-        self::STATUS_OPEN    => '进行中',
-        self::STATUS_COMING  => '即将上线',
-        self::STATUS_SUCCESS => '已成功',
-        self::STATUS_OVER    => '已结束',
+        self::STATUS_CLOSE => '关闭',
+        self::STATUS_OPEN  => '进行中',
+        //        self::STATUS_COMING  => '即将上线',
+        //        self::STATUS_SUCCESS => '已成功',
+        //        self::STATUS_OVER    => '已结束',
     ];
 
     /**
@@ -51,6 +53,59 @@ class Crowdfund extends Model
         return $this->hasMany(CrowdfundItem::class);
     }
 
+    /**
+     * Notes: 获取状态码
+     * @Author: 玄尘
+     * @Date  : 2020/12/8 14:29
+     */
+    public function getCodeAttribute()
+    {
+        //关闭
+        if ($this->status == self::STATUS_CLOSE) {
+            return 0;
+        }
+
+        if ($this->status == self::STATUS_OPEN) {
+            //即将上线
+            if (now()->lt($this->start_at)) {
+                return 2;
+            }
+
+            //进行中
+            if (Carbon::now()->gte($this->start_at) && Carbon::now()->lte($this->end_at)) {
+                return 1;
+            }
+
+            //已成功
+            if (Carbon::now()->gt($this->end_at) && $this->amount <= $this->all_total) {
+                return 3;
+            }
+
+            // 已结束
+            if (Carbon::now()->gt($this->end_at) && $this->all_total < $this->amount) {
+                return 4;
+            }
+
+        }
+    }
+
+    /**
+     * Notes: 返回状态名
+     * @Author: 玄尘
+     * @Date  : 2020/12/8 14:43
+     * @return mixed|string
+     */
+    public function getCodeTextAttribute()
+    {
+        return config('crowdfund.code_text')[$this->code] ?? '未知';
+    }
+
+    /**
+     * Notes: 状态
+     * @Author: 玄尘
+     * @Date  : 2020/12/8 14:29
+     * @return string
+     */
     public function getStatusTextAttribute()
     {
         return self::STATUS[$this->status] ?? '未知';
@@ -75,7 +130,7 @@ class Crowdfund extends Model
      */
     public function canPay()
     {
-        return in_array($this->status, [self::STATUS_OPEN]) && $this->end_at->gt(Carbon::now());
+        return $this->code == 1;
     }
 
     /**
@@ -85,7 +140,7 @@ class Crowdfund extends Model
      */
     public function getAllUsersAttribute()
     {
-        return $this->items->sum('all_users');
+        return $this->items->sum('all_users') ?? 0;
     }
 
     /**

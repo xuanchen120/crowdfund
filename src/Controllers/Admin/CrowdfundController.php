@@ -3,6 +3,7 @@
 namespace XuanChen\CrowdFund\Controllers\Admin;
 
 use App\Models\Company;
+use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -21,23 +22,33 @@ class CrowdfundController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Crowdfund());
+        $grid->model()->withCount('items')->latest();
 
         $grid->column('id', '#ID#');
         $grid->column('title', '项目名称');
         $grid->column('company.name', '企业名');
+        $grid->column('category.title', '分类');
         $grid->column('amount', '目标金额');
-        $grid->column('status', '状态')
-             ->using(Crowdfund::STATUS)
-             ->label([
-                 Crowdfund::STATUS_CLOSE   => 'danger',
-                 Crowdfund::STATUS_COMING  => 'warning',
-                 Crowdfund::STATUS_OPEN    => 'info',
-                 Crowdfund::STATUS_SUCCESS => 'primary',
-                 Crowdfund::STATUS_OVER    => 'default',
-             ]);
-        
+        $grid->column('status', '状态')->switch();
+
+        $grid->column('回报数量')->display(function () {
+            return $this->items_count;
+        });
+
+        $grid->column('支持人数')->display(function () {
+            return $this->all_users;
+        });
+
+        $grid->column('支持金额')->display(function () {
+            return $this->all_total;
+        });
+
         $grid->column('handpick', '精选')
              ->bool();
+
+        $grid->column('start_at', '开始时间');
+        $grid->column('end_at', '结束时间');
+        $grid->column('created_at', '添加时间');
 
         return $grid;
     }
@@ -71,7 +82,7 @@ class CrowdfundController extends AdminController
             $form->textarea('description', '简介')->required();
 
             $form->multipleImage('pictures', '封面')
-                 ->move('images/' . date('Y/m/d'))
+                 ->move('images/crowdfund/' . date('Y/m/d'))
                  ->removable()
                  ->uniqueName();
 
@@ -90,8 +101,8 @@ class CrowdfundController extends AdminController
                  ->required();
 
             $form->number('amount', '目标金额')->default(1)->required();
-            $form->date('start_at', '开始时间')->required();
-            $form->date('end_at', '结束时间')->required();
+            $form->datetime('start_at', '开始时间')->required();
+            $form->datetime('end_at', '结束时间')->required();
             $form->ueditor('content', '详情')->required();
             $form->switch('status', '状态')->default(1);
             $form->switch('handpick', '精选')->default(0);
@@ -103,7 +114,7 @@ class CrowdfundController extends AdminController
 
                 $form->text('title', '名称')->required();
                 $form->multipleImage('pictures', '封面')
-                     ->move('images/' . date('Y/m/d'))
+                     ->move('images/crowdfund/items/' . date('Y/m/d'))
                      ->removable()
                      ->uniqueName();
 
@@ -113,8 +124,7 @@ class CrowdfundController extends AdminController
 
                 $form->number('price', '金额')
                      ->default(0)
-                     ->required()
-                     ->help('无偿不需要添加');
+                     ->required();
 
                 $form->number('quantity', '限制人数')
                      ->default(0)
@@ -124,6 +134,9 @@ class CrowdfundController extends AdminController
         });
 
         $form->saving(function (Form $form) {
+
+            $form->start_at = Carbon::parse($form->start_at)->startOfDay()->addMinute();
+            $form->end_at   = Carbon::parse($form->end_at)->endOfDay();
 
             if ($form->isCreating() && !isset($form->pictures) && !isset($form->video)) {
                 return $this->backErrorMessage('必须上传图片或者视频');

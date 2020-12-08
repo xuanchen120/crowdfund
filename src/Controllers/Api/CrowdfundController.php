@@ -46,9 +46,8 @@ class CrowdfundController extends Controller
                           ->when($handpick, function ($q) use ($handpick) {
                               $q->where('handpick', $handpick);
                           })
-                          ->where('status', '>', 0)
-                          ->orderBy('status', 'asc')
-                          ->orderBy('created_at', 'asc')
+                          ->where('status', Crowdfund::STATUS_OPEN)
+                          ->orderBy('created_at', 'desc')
                           ->paginate();
 
         $data = new CrowdfundCollection($lists);

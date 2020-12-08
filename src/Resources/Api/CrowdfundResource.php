@@ -29,6 +29,7 @@ class CrowdfundResource extends JsonResource
             'province'     => $this->province->name,
             'city'         => $this->city->name,
             'likes'        => $this->likes_count ?? 0,
+            'ratio'        => bcdiv($this->all_total, $this->amount, 2) * 100,
             'isLike'       => $this->isLikedBy(config('crowdfund.Api')::user()),
             'canPay'       => $this->canPay(),
             'start_at'     => (string)$this->start_at,

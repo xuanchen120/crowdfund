@@ -158,13 +158,13 @@ class CrowdfundItem extends Model implements ShouldOrder
     public function getAllUsersAttribute()
     {
         return Order::whereHas('items', function ($q) {
-            $q->where('item_type', get_class($this))->where('item_id', $this->id);
-        })->whereIn('state', [
-            Order::ORDER_PAID,
-            Order::ORDER_DELIVER,
-            Order::ORDER_DELIVERED,
-            Order::ORDER_SIGNED,
-        ])->count();
+                $q->where('item_type', get_class($this))->where('item_id', $this->id);
+            })->whereIn('state', [
+                Order::ORDER_PAID,
+                Order::ORDER_DELIVER,
+                Order::ORDER_DELIVERED,
+                Order::ORDER_SIGNED,
+            ])->count() ?? 0;
     }
 
     /**
@@ -175,13 +175,13 @@ class CrowdfundItem extends Model implements ShouldOrder
     public function getAllTotalAttribute()
     {
         return Order::whereHas('items', function ($q) {
-            $q->where('item_type', get_class($this))->where('item_id', $this->id);
-        })->whereIn('state', [
-            Order::ORDER_PAID,
-            Order::ORDER_DELIVER,
-            Order::ORDER_DELIVERED,
-            Order::ORDER_SIGNED,
-        ])->sum('amount');
+                $q->where('item_type', get_class($this))->where('item_id', $this->id);
+            })->whereIn('state', [
+                Order::ORDER_PAID,
+                Order::ORDER_DELIVER,
+                Order::ORDER_DELIVERED,
+                Order::ORDER_SIGNED,
+            ])->sum('amount') ?? 0;
     }
 
 }
