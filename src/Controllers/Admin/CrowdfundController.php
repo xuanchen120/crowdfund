@@ -35,6 +35,10 @@ class CrowdfundController extends AdminController
             return $this->items_count;
         });
 
+        $grid->column('状态码')->display(function () {
+            return $this->code_text;
+        });
+
         $grid->column('支持人数')->display(function () {
             return $this->all_users;
         });
@@ -119,7 +123,7 @@ class CrowdfundController extends AdminController
                      ->uniqueName();
 
                 $form->textarea('time', '回报时间')->required();
-                $form->ueditor('remark', '回报内容')->required();
+                $form->textarea('remark', '回报内容')->required();
                 $form->textarea('shipping', '配送说明')->required();
 
                 $form->number('price', '金额')
