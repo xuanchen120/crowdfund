@@ -17,7 +17,7 @@ class CrowdfundItemResource extends JsonResource
             'remark'            => $this->remark,
             'shipping'          => $this->shipping,
             'price'             => $this->price,
-            'quantity'          => $this->quantity > 0 ?: '不限制',
+            'quantity'          => $this->quantity > 0 ? $this->quantity : '不限制',
             'all_users'         => $this->all_users,
             'all_total'         => $this->all_total,
             'canPay'            => $this->canPay(),

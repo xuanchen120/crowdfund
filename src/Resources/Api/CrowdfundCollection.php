@@ -19,7 +19,7 @@ class CrowdfundCollection extends BaseCollection
                     'cover'        => $crowdfund->one_cover,
                     'amount'       => $crowdfund->amount,//目标金额
                     'all_total'    => $crowdfund->all_total,//筹集金额
-                    'all_users'    => $crowdfund->all_users,//筹集金额
+                    'all_users'    => $crowdfund->all_users,//参与人数
                     //                'description'  => (string)$crowdfund->description,
                     'city'         => (string)$crowdfund->city->name ?? '',
                     'category'     => $crowdfund->category->title,

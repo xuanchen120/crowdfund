@@ -10,7 +10,6 @@
 | 请求参数         | 类型    | 说明                     | 版本  |
 | -------------- | ------ | ------------------------ | ----- |
 | company_id      | string   |  企业id                 | 1.0.0 |
-| category_id      | string   |  分类id                 | 1.0.0 |
 
 | 响应参数     | 类型   | 说明   | 版本  |
 | ------------ | ------ | ------ | ----- |
@@ -82,14 +81,10 @@
 | content      | string | 详情       | 1.0.0 |
 | status_text  | string | 状态名称   | 1.0.0 |
 | status       | string | 状态       | 1.0.0 |
-| category       | string | 分类       | 1.0.0 |
-| diffDays     | string | 项目周期   | 1.0.0 |
-| endDiffDays     | string | 剩余天数   | 1.0.0 |
+| diffDays     | string | 剩余天数   | 1.0.0 |
 | province     | string | 省份       | 1.0.0 |
 | city         | string | 城市       | 1.0.0 |
 | likes        | string | 关注人数   | 1.0.0 |
-| isLike        | string | 是否关注   | 1.0.0 |
-| canPay        | string | 是否可以支持   | 1.0.0 |
 | start_at     | string | 开始时间   | 1.0.0 |
 | end_at       | string | 结束时间   | 1.0.0 |
 | created_at   | string | 创建时间   | 1.0.0 |
@@ -140,14 +135,10 @@
         "content": "<p>范德萨发撒</p>",
         "status_text": "进行中",
         "status": 1,
-        "category": "测试",
         "diffDays": 57,
-        "endDiffDays": 54,
         "province": "黑龙江省",
         "city": "哈尔滨市",
-        "likes": 0,
-        "isLike": false,
-        "canPay": true,
+        "likes": null,
         "start_at": "2020-12-03 00:00:00",
         "end_at": "2021-01-31 00:00:00",
         "created_at": "2020-12-03 14:49:09"
@@ -272,9 +263,7 @@
 {
     "status": "SUCCESS",
     "status_code": 200,
-    "data": {
-        "likes": 1
-    }
+    "data": "关注成功"
 }
 ```
 
