@@ -93,8 +93,8 @@ class CategoryController extends AdminController
                  return $model->where('status', 1);
              }, '一级分类'));
 
-        $form->text('title', '分类名称')->rules('required');
-        $form->textarea('remark', '分类简介')->rules('nullable');
+        $form->text('title', '分类名称')->required();
+        $form->textarea('remark', '分类简介')->required();
         $form->image('cover', 'LOGO')
              ->move('images/' . date('Y/m/d'))
              ->removable()
