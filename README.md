@@ -10,6 +10,8 @@
 | 请求参数         | 类型    | 说明                     | 版本  |
 | -------------- | ------ | ------------------------ | ----- |
 | company_id      | string   |  企业id                 | 1.0.0 |
+| category_id     | string   |  分类id                 | 1.0.0 |
+| handpick      | string   |  是否精选                 | 1.0.0 |
 
 | 响应参数     | 类型   | 说明   | 版本  |
 | ------------ | ------ | ------ | ----- |
@@ -26,6 +28,7 @@
 | diffDays     | string | 剩余天数 | 1.0.0 |
 | openDiffDays     | string | 开启时间倒计时 | 1.0.0 |
 | likes        | string | 关注人数 | 1.0.0 |
+| ratio        | string | 完成比例 | 1.0.0 |
 
 >stauts : 0 关闭 1 进行中 2 即将上线 3 已成功 4 已结束
 
@@ -77,14 +80,19 @@
 | amount       | string | 目标金额   | 1.0.0 |
 | all_total    | string | 已筹集金额 | 1.0.0 |
 | all_users    | string | 参与人数   | 1.0.0 |
-| description  | string | 城市       | 1.0.0 |
+| description  | string | 简介       | 1.0.0 |
 | content      | string | 详情       | 1.0.0 |
 | status_text  | string | 状态名称   | 1.0.0 |
 | status       | string | 状态       | 1.0.0 |
-| diffDays     | string | 剩余天数   | 1.0.0 |
+| category       | string | 分类       | 1.0.0 |
+| diffDays     | string | 项目周期   | 1.0.0 |
+| endDiffDays     | string | 剩余天数   | 1.0.0 |
+| openDiffDays     | string | 倒计时   | 1.0.0 |
 | province     | string | 省份       | 1.0.0 |
 | city         | string | 城市       | 1.0.0 |
 | likes        | string | 关注人数   | 1.0.0 |
+| isLike        | string | 是否关注   | 1.0.0 |
+| canPay        | string | 是否可以支持   | 1.0.0 |
 | start_at     | string | 开始时间   | 1.0.0 |
 | end_at       | string | 结束时间   | 1.0.0 |
 | created_at   | string | 创建时间   | 1.0.0 |
@@ -135,10 +143,15 @@
         "content": "<p>范德萨发撒</p>",
         "status_text": "进行中",
         "status": 1,
+        "category": "测试",
         "diffDays": 57,
+        "endDiffDays": 54,
+        "openDiffDays": "0秒",
         "province": "黑龙江省",
         "city": "哈尔滨市",
-        "likes": null,
+        "likes": 0,
+        "isLike": false,
+        "canPay": true,
         "start_at": "2020-12-03 00:00:00",
         "end_at": "2021-01-31 00:00:00",
         "created_at": "2020-12-03 14:49:09"
@@ -236,6 +249,7 @@
 | ----------------- | ------ | ------ | ----- |
 | crowdfund_item_id | string | 回报id | 1.0.0 |
 | address_id        | string | 地址id | 1.0.0 |
+| remark        | string | 备注 | 1.0.0 |
 
 ```
 {
@@ -263,7 +277,9 @@
 {
     "status": "SUCCESS",
     "status_code": 200,
-    "data": "关注成功"
+    "data": {
+        "likes": 1
+    }
 }
 ```
 
