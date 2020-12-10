@@ -16,7 +16,7 @@ trait ItemHasAttribute
      */
     public function getOrderableName()
     {
-        return $this->title;
+        return $this->crowdfund->title;
     }
 
     /**
@@ -109,7 +109,7 @@ trait ItemHasAttribute
      */
     public function getItemValue()
     {
-        return '';
+        return $this->title;
     }
 
 }

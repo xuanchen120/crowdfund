@@ -33,7 +33,6 @@ class CrowdfundResource extends JsonResource
             'ratio'        => bcdiv($this->all_total, $this->amount, 2) * 100,
             'isLike'       => $this->isLikedBy(config('crowdfund.Api')::user()),
             'canPay'       => $this->canPay(),
-            'type'         => $this->video ? 'video' : 'image',
             'start_at'     => (string)$this->start_at,
             'end_at'       => (string)$this->end_at,
             'created_at'   => (string)$this->created_at,
