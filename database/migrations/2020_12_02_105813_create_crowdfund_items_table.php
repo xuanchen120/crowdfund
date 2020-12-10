@@ -19,7 +19,7 @@ class CreateCrowdfundItemsTable extends Migration
             $table->string('title');
             $table->boolean('type')->default(1)->comment('类型：1正常 2无条件支持');
             $table->string('time')->comment('回报时间');
-            $table->string('content')->comment('回报内容');
+            $table->string('remark')->comment('回报内容');
             $table->string('shipping')->comment('配送说明');
             $table->decimal('price', 10, 2);
             $table->integer('quantity')->default(0)->comment('限制人数，0为不限制');
