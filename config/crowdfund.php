@@ -6,16 +6,6 @@ return [
     'Api'          => '\Api',
     'Seller'       => '\Api',
 
-    //后台管理路由
-    'routers'      => [
-        'admin' => [
-            'crowdfunds' => 'crowdfunds',
-        ],
-        'api'   => [
-            'crowdfunds' => 'crowdfunds',
-        ],
-    ],
-
     'code_text' => [
         0 => '关闭',
         1 => '进行中',

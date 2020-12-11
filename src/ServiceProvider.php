@@ -49,9 +49,21 @@ class ServiceProvider extends LaravelServiceProvider
             'middleware' => config('api.route.middleware_auth'),
         ], function (Router $router) {
             $router->get('ajax/crowdfundcategory', 'AjaxController@category');
-            $router->post(config('crowdfund.routers.api.crowdfunds') . '/like', 'CrowdfundController@like');
-            $router->post(config('crowdfund.routers.api.crowdfunds') . '/unlike', 'CrowdfundController@unlike');
-            $router->resource(config('crowdfund.routers.api.crowdfunds'), 'CrowdfundController');
+            $router->post('crowdfunds/like', 'CrowdfundController@like');
+            $router->post('crowdfunds/unlike', 'CrowdfundController@unlike');
+
+            $router->get('crowdfunds/create', 'CrowdfundController@create');
+            $router->post('crowdfunds', 'CrowdfundController@store');
+        });
+
+        Route::group([
+            'prefix'     => config('api.route.prefix'),
+            'namespace'  => 'XuanChen\CrowdFund\Controllers\Api',
+            'middleware' => config('api.route.middleware_guess'),
+        ], function (Router $router) {
+            $router->get('ajax/crowdfundcategory', 'AjaxController@category');
+            $router->get('crowdfunds', 'CrowdfundController@index');
+            $router->get('crowdfunds/{crowdfund}', 'CrowdfundController@show');
         });
 
         //企业后台
@@ -60,7 +72,7 @@ class ServiceProvider extends LaravelServiceProvider
             'namespace'  => 'XuanChen\CrowdFund\Controllers\Seller',
             'middleware' => config('seller.route.need_auth'),
         ], function (Router $router) {
-            $router->resource(config('crowdfund.routers.api.crowdfunds'), 'CrowdfundController');
+            $router->resource('crowdfunds', 'CrowdfundController');
         });
     }
 

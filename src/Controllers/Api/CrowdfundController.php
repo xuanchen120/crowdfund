@@ -32,9 +32,6 @@ class CrowdfundController extends Controller
      */
     public function index(Request $request)
     {
-        $user = config('crowdfund.Api')::user();
-        $user->OpenVipByParent(20);
-
         $company_id  = $request->company_id;
         $category_id = $request->category_id;
         $handpick    = $request->handpick;

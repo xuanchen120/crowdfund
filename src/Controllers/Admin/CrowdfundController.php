@@ -156,18 +156,33 @@ class CrowdfundController extends AdminController
         });
 
         $form->saving(function (Form $form) {
+            if (request()->has('title')) {
+                $form->start_at = Carbon::parse($form->start_at)->startOfDay()->addMinute();
+                $form->end_at   = Carbon::parse($form->end_at)->endOfDay();
 
-            $form->start_at = Carbon::parse($form->start_at)->startOfDay()->addMinute();
-            $form->end_at   = Carbon::parse($form->end_at)->endOfDay();
+                if ($form->isCreating() && empty($form->pictures) && empty($form->video)) {
+                    return $this->backErrorMessage('必须上传图片或者视频');
+                }
 
-            if ($form->isCreating() && !isset($form->pictures) && !isset($form->video)) {
-                return $this->backErrorMessage('必须上传图片或者视频');
+                $items       = request()->items;
+                $items_count = empty($items) ? 0 : count($items);
+                if (!$items_count) {
+                    return $this->backErrorMessage('必须添加回报');
+                }
+
+                $remove = 0;
+
+                foreach ($items as $key => $item) {
+                    if ($item['_remove_'] == 1) {
+                        $remove++;
+                    }
+                }
+
+                if ($remove == $items_count) {
+                    return $this->backErrorMessage('必须添加回报');
+                }
+
             }
-
-            if (!$form->items && !isset(request()->_file_del_)) {
-                return $this->backErrorMessage('必须添加回报');
-            }
-
         });
 
         return $form;

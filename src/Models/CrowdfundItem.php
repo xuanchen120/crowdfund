@@ -3,6 +3,7 @@
 namespace XuanChen\CrowdFund\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Jason\Order\Models\Order;
 use Jason\Order\Models\OrderItem;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCrowdfund;
@@ -15,7 +16,8 @@ class CrowdfundItem extends Model implements ShouldOrder
 
     use BelongsToCrowdfund,
         HasCovers,
-        ItemHasAttribute;
+        ItemHasAttribute,
+        SoftDeletes;
 
     protected $casts = [
         'pictures' => 'array',

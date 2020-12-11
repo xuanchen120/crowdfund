@@ -10,6 +10,8 @@ class CrowdfundResource extends JsonResource
 
     public function toArray($request)
     {
+        $user = config('crowdfund.Api')::user();
+
         return [
             'crowdfund_id' => $this->id,
             'title'        => $this->title,
@@ -31,7 +33,7 @@ class CrowdfundResource extends JsonResource
             'city'         => $this->city->name,
             'likes'        => $this->likes()->count(),
             'ratio'        => bcdiv($this->all_total, $this->amount, 2) * 100,
-            'isLike'       => $this->isLikedBy(config('crowdfund.Api')::user()),
+            'isLike'       => $user ? $this->isLikedBy(config('crowdfund.Api')::user()) : false,
             'canPay'       => $this->canPay(),
             'start_at'     => (string)$this->start_at,
             'end_at'       => (string)$this->end_at,
