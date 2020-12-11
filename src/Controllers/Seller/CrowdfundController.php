@@ -3,7 +3,6 @@
 namespace XuanChen\CrowdFund\Controllers\Seller;
 
 use App\Api\Controllers\Controller;
-use Carbon\Carbon;
 use Jason\Address\Models\Area;
 use XuanChen\CrowdFund\Models\Crowdfund;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ class CrowdfundController extends Controller
      * Notes: 列表
      * @Author: 玄尘
      * @Date  : 2020/12/4 10:46
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function index(Request $request)
@@ -121,8 +120,8 @@ class CrowdfundController extends Controller
      * Notes: 更新
      * @Author: 玄尘
      * @Date  : 2020/12/4 10:50
-     * @param \XuanChen\CrowdFund\Models\Crowdfund $crowdfund
-     * @param \Illuminate\Http\Request             $request
+     * @param  \XuanChen\CrowdFund\Models\Crowdfund  $crowdfund
+     * @param  \Illuminate\Http\Request              $request
      */
     public function update(CrowdfundRequest $request, Crowdfund $crowdfund)
     {
@@ -139,7 +138,7 @@ class CrowdfundController extends Controller
      * Notes: 删除
      * @Author: 玄尘
      * @Date  : 2020/12/4 10:47
-     * @param \XuanChen\CrowdFund\Models\Crowdfund $crowdfund
+     * @param  \XuanChen\CrowdFund\Models\Crowdfund  $crowdfund
      */
     public function destroy($crowdfund)
     {

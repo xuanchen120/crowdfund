@@ -17,7 +17,6 @@ use XuanChen\CrowdFund\Resources\Api\CrowdfundResource;
 use XuanChen\CrowdFund\Resources\Api\AddressResource;
 use XuanChen\CrowdFund\Resources\Api\CrowdfundItemResource;
 use Jason\Order\Item;
-use Carbon\Carbon;
 use Jason\Order\Facades\Order;
 
 class CrowdfundController extends Controller
@@ -56,7 +55,7 @@ class CrowdfundController extends Controller
      * Notes: 显示详情
      * @Author: 玄尘
      * @Date  : 2020/12/3 8:14
-     * @param \XuanChen\CrowdFund\Models\Crowdfund $crowdfund
+     * @param  \XuanChen\CrowdFund\Models\Crowdfund  $crowdfund
      * @return mixed
      */
     public function show($crowdfund)
@@ -73,7 +72,7 @@ class CrowdfundController extends Controller
      * Notes: 参加项目-获取信息
      * @Author: 玄尘
      * @Date  : 2020/12/3 9:02
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      */
     public function create(Request $request)
     {
@@ -92,7 +91,7 @@ class CrowdfundController extends Controller
      * Notes: 参加项目
      * @Author: 玄尘
      * @Date  : 2020/12/3 8:15
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      */
     public function store(Request $request)
     {
@@ -169,7 +168,7 @@ class CrowdfundController extends Controller
      * Notes: 取消关注
      * @Author: 玄尘
      * @Date  : 2020/12/3 17:02
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
     public function unlike(Request $request)
