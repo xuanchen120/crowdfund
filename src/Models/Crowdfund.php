@@ -29,18 +29,14 @@ class Crowdfund extends Model
         'pictures' => 'array',
     ];
 
-    const STATUS_CLOSE = 0;
-    const STATUS_OPEN  = 1;
-    //    const STATUS_COMING  = 2;
-    //    const STATUS_SUCCESS = 3;
-    //    const STATUS_OVER    = 4;
+    const STATUS_CLOSE  = 0;
+    const STATUS_OPEN   = 1;
+    const STATUS_REFUND = 2;
 
     const STATUS = [
-        self::STATUS_CLOSE => '关闭',
-        self::STATUS_OPEN  => '进行中',
-        //        self::STATUS_COMING  => '即将上线',
-        //        self::STATUS_SUCCESS => '已成功',
-        //        self::STATUS_OVER    => '已结束',
+        self::STATUS_CLOSE  => '关闭',
+        self::STATUS_OPEN   => '进行中',
+        self::STATUS_REFUND => '已退款',
     ];
 
     /**

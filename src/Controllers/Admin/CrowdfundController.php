@@ -2,6 +2,9 @@
 
 namespace XuanChen\CrowdFund\Controllers\Admin;
 
+use App\Admin\Actions\Order\OrderCancel;
+use App\Admin\Actions\Order\OrderDeliver;
+use App\Admin\Actions\Order\OrderPaid;
 use App\Models\Company;
 use Carbon\Carbon;
 use Encore\Admin\Controllers\AdminController;
@@ -13,6 +16,7 @@ use XuanChen\CrowdFund\Models\Crowdfund;
 use XuanChen\CrowdFund\Models\CrowdfundCategory;
 use XuanChen\CrowdFund\Models\CrowdfundItem;
 use Jason\Address\Models\Area;
+use XuanChen\CrowdFund\Controllers\Actions\Refund;
 
 class CrowdfundController extends AdminController
 {
@@ -23,6 +27,15 @@ class CrowdfundController extends AdminController
     {
         $grid = new Grid(new Crowdfund());
         $grid->model()->withCount('items')->latest();
+
+        $grid->actions(function ($actions) {
+            $actions->disableView();
+
+            if ($actions->row->code == 4) {
+                $actions->add(new Refund);
+            }
+
+        });
 
         $grid->filter(function (Grid\Filter $filter) {
             $filter->column(1 / 2, function (Grid\Filter $filter) {
@@ -47,15 +60,22 @@ class CrowdfundController extends AdminController
         $grid->column('company.name', '企业名');
         $grid->column('category.title', '分类');
         $grid->column('amount', '目标金额');
-        $grid->column('status', '状态')->switch();
+        $grid->column('status', '状态')
+             ->using(Crowdfund::STATUS)
+             ->label([
+                 Crowdfund::STATUS_OPEN   => 'success',
+                 Crowdfund::STATUS_CLOSE  => 'info',
+                 Crowdfund::STATUS_REFUND => 'error',
+             ]);
 
         $grid->column('回报数量')->display(function () {
             return $this->items_count;
         });
 
-        $grid->column('状态码')->display(function () {
-            return $this->code_text;
-        });
+        $grid->column('状态码')
+             ->display(function () {
+                 return $this->code_text;
+             });
 
         $grid->column('支持人数')->display(function () {
             return $this->all_users;
