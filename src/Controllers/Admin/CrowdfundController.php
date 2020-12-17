@@ -153,9 +153,8 @@ class CrowdfundController extends AdminController
 
         $form->tab('项目回报', function (Form $form) {
             $form->hasMany('items', '项目回报', function (Form\NestedForm $form) {
-
                 $form->text('title', '名称')->required();
-                $form->multipleImage('pictures', '封面')
+                $form->multipleImage('covers', '封面')
                      ->move('images/crowdfund/items/' . date('Y/m/d'))
                      ->removable()
                      ->uniqueName();

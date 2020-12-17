@@ -19,9 +19,24 @@ class CrowdfundItem extends Model implements ShouldOrder
         ItemHasAttribute,
         SoftDeletes;
 
-    protected $casts = [
+    protected $casts   = [
         'pictures' => 'array',
     ];
+
+    protected $appends = ['covers'];
+
+    public function setCoversAttribute($covers)
+    {
+        if (is_array($covers)) {
+            $this->attributes['pictures'] = json_encode($covers);
+        }
+    }
+
+    public function getCoversAttribute()
+    {
+        return $this->pictures;
+
+    }
 
     public function crowdfund()
     {
