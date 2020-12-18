@@ -27,6 +27,7 @@ Route::group([
     $router->post('crowdfunds', 'CrowdfundController@store');
 });
 
+//手机端
 Route::group([
     'prefix'     => config('api.route.prefix'),
     'namespace'  => 'XuanChen\CrowdFund\Controllers\Api',
@@ -43,5 +44,11 @@ Route::group([
     'namespace'  => 'XuanChen\CrowdFund\Controllers\Seller',
     'middleware' => config('seller.route.need_auth'),
 ], function (Router $router) {
+    $router->get('crowdfunds/{crowdfund}/items', 'CrowdfundController@items');              //回报列表
+    $router->post('crowdfunds/createitem/{crowdfund}', 'CrowdfundController@createItem');   //添加回报
+    $router->get('crowdfunds/itemshow/{item}', 'CrowdfundController@itemShow');             //查看回报
+    $router->post('crowdfunds/itemstore/{item}', 'CrowdfundController@itemStore');          //编辑回报
+    $router->delete('crowdfunds/itemdel/{item}', 'CrowdfundController@delItem');            //删除回报
+
     $router->resource('crowdfunds', 'CrowdfundController');
 });
