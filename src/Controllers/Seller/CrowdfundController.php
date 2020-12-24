@@ -30,6 +30,7 @@ class CrowdfundController extends Controller
         $status      = $request->status;
         $category_id = $request->category_id;
         $title       = $request->title;
+        $perPage     = $request->perPage ?? 15;
 
         $user = config('crowdfund.Seller')::user();
 
@@ -44,13 +45,13 @@ class CrowdfundController extends Controller
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('category_id', $category_id);
                           })
-                          ->when($status, function ($q) use ($status) {
+                          ->when(!empty($status), function ($q) use ($status) {
                               $q->where('status', $status);
                           })
                           ->when($title, function ($q) use ($title) {
                               $q->where('title', $title);
                           })
-                          ->paginate();
+                          ->paginate($perPage);
 
         return $this->success(new CrowdfundCollection($lists));
 
