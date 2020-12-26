@@ -44,6 +44,8 @@ Route::group([
     'namespace'  => 'XuanChen\CrowdFund\Controllers\Seller',
     'middleware' => config('seller.route.need_auth'),
 ], function (Router $router) {
+    $router->get('ajax/crowdfundcategory', 'AjaxController@category');
+
     $router->get('crowdfunds/{crowdfund}/items', 'CrowdfundController@items');              //回报列表
     $router->post('crowdfunds/createitem/{crowdfund}', 'CrowdfundController@createItem');   //添加回报
     $router->get('crowdfunds/itemshow/{item}', 'CrowdfundController@itemShow');             //查看回报
