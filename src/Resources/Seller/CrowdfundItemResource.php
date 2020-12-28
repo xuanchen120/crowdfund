@@ -21,7 +21,7 @@ class CrowdfundItemResource extends JsonResource
             'shipping'   => $this->shipping,
             'price'      => $this->price,
             'quantity'   => $this->quantity,
-            'created_at' => $this->created_at,
+            'created_at' => (string)$this->created_at,
         ];
     }
 

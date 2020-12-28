@@ -45,7 +45,7 @@ class CrowdfundController extends Controller
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('category_id', $category_id);
                           })
-                          ->when(!empty($status), function ($q) use ($status) {
+                          ->when(!is_null($status), function ($q) use ($status) {
                               $q->where('status', $status);
                           })
                           ->when($title, function ($q) use ($title) {
@@ -108,8 +108,9 @@ class CrowdfundController extends Controller
      * @param \XuanChen\CrowdFund\Models\Crowdfund $crowdfund
      * @return mixed|\XuanChen\CrowdFund\Models\Crowdfund
      */
-    public function edit($crowdfund)
+    public function edit(Crowdfund $crowdfund)
     {
+        return $crowdfund;
         $info = Crowdfund::find($crowdfund);
         if (!$info) {
             return $this->failed('未找到信息');
