@@ -40,7 +40,7 @@ class CrowdfundController extends Controller
             return $this->failed('您还没有进行企业认证。');
         }
         $lists = Crowdfund::latest()
-                          ->withCount(['likes'])
+                          ->withCount(['likes', 'items'])
                           ->where('company_id', $company->id)
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('category_id', $category_id);

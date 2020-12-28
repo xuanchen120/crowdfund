@@ -5,7 +5,7 @@ return [
     'companyModel' => App\Models\Company::class,
     'Api'          => '\Api',
     'Seller'       => '\Api',
-    
+
     'code_text' => [
         0 => '关闭',
         1 => '进行中',

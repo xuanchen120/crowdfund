@@ -24,6 +24,7 @@ class CrowdfundCollection extends BaseCollection
                     'category'     => $crowdfund->category->title,
                     'status_text'  => $crowdfund->status_text,
                     'likes'        => $crowdfund->likes_count,
+                    'item_count'   => $crowdfund->items_count,
                     'start_at'     => $crowdfund->start_at->format('Y-m-d H:i:s'),
                     'end_at'       => $crowdfund->end_at->format('Y-m-d H:i:s'),
                     'created_at'   => $crowdfund->created_at->format('Y-m-d H:i:s'),

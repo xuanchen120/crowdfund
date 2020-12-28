@@ -14,8 +14,14 @@ class CrowdfundResource extends JsonResource
             'id'                    => $this->id,
             'title'                 => $this->title,
             'crowdfund_category_id' => $this->crowdfund_category_id,
-            'pictures'              => $this->pictures,
-            'video'                 => $this->video,
+            'pictures'              => [
+                'path'     => $this->pictures,
+                'showpath' => $this->pictures_url,
+            ],
+            'video'                 => [
+                'path'     => $this->video,
+                'showpath' => $this->video_url,
+            ],
             'amount'                => $this->amount,//目标金额
             'items'                 => CrowdfundItemResource::collection($this->items),
             'description'           => $this->description,
@@ -24,6 +30,7 @@ class CrowdfundResource extends JsonResource
             'province_id'           => $this->province_id,
             'city_id'               => $this->city_id,
             'likes'                 => $this->likes_count,
+            'handpick'              => $this->handpick,
             'start_at'              => (string)$this->start_at,
             'end_at'                => (string)$this->end_at,
             'created_at'            => (string)$this->created_at,
