@@ -62,7 +62,7 @@ class CrowdfundItem extends Model implements ShouldOrder
      */
     public function orderitem()
     {
-        return $this->morphOne(OrderItem::class, 'item');
+        return $this->morphMany(OrderItem::class, 'item');
 
     }
 
@@ -98,6 +98,22 @@ class CrowdfundItem extends Model implements ShouldOrder
                 Order::ORDER_DELIVERED,
                 Order::ORDER_SIGNED,
             ])->sum('amount') ?? 0;
+    }
+
+    /**
+     * Notes: 返回source
+     * @Author: 玄尘
+     * @Date  : 2020/12/29 13:22
+     */
+    public function getSource()
+    {
+        return [
+            'title'  => $this->getOrderableName(),
+            'value'  => $this->getItemValue(),
+            'cover'  => $this->one_cover,
+            'bonus1' => 0,
+            'bonus2' => 0,
+        ];
     }
 
 }

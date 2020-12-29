@@ -122,7 +122,7 @@ class CrowdfundController extends Controller
             }
 
             $orderItems = [];
-            array_push($orderItems, new Item($info, 1));
+            array_push($orderItems, new Item($info, 1, $info->getSource()));
 
             $orders = Order::user($user)
                            ->address($address)
