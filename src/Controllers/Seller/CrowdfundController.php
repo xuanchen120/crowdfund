@@ -40,7 +40,7 @@ class CrowdfundController extends Controller
             return $this->failed('您还没有进行企业认证。');
         }
         $lists = Crowdfund::latest()
-                          ->withCount(['likes', 'items'])
+                          ->withCount(['subscriptions', 'items'])
                           ->where('company_id', $company->id)
                           ->when($category_id, function ($q) use ($category_id) {
                               $q->where('category_id', $category_id);
@@ -108,10 +108,10 @@ class CrowdfundController extends Controller
      * @param \XuanChen\CrowdFund\Models\Crowdfund $crowdfund
      * @return mixed|\XuanChen\CrowdFund\Models\Crowdfund
      */
-    public function edit(Crowdfund $crowdfund)
+    public function edit($crowdfund_id)
     {
-        return $crowdfund;
-        $info = Crowdfund::find($crowdfund);
+        $info = Crowdfund::find($crowdfund_id);
+
         if (!$info) {
             return $this->failed('未找到信息');
         }
@@ -155,9 +155,9 @@ class CrowdfundController extends Controller
      * @param $crowdfund
      * @return mixed
      */
-    public function destroy($crowdfund)
+    public function destroy($crowdfund_id)
     {
-        $info = Crowdfund::find($crowdfund);
+        $info = Crowdfund::find($crowdfund_id);
         if (!$info) {
             return $this->failed('数据获取失败');
         }

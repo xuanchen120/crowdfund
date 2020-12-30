@@ -29,7 +29,7 @@ class CrowdfundResource extends JsonResource
             'status'                => $this->status,
             'province_id'           => $this->province_id,
             'city_id'               => $this->city_id,
-            'likes'                 => $this->likes_count,
+            //            'subscriptions'         => $this->subscriptions()->count(),
             'handpick'              => $this->handpick,
             'start_at'              => (string)$this->start_at,
             'end_at'                => (string)$this->end_at,
