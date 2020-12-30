@@ -145,7 +145,7 @@ class CrowdfundController extends Controller
      * @Author: 玄尘
      * @Date  : 2020/12/3 16:33
      */
-    public function like(Request $request)
+    public function subscribe(Request $request)
     {
         $user = config('crowdfund.Api')::user();
 
@@ -156,9 +156,9 @@ class CrowdfundController extends Controller
             return $this->failed('未找到数据');
         }
 
-        $user->like($info);
+        $user->subscribe($info);
         $data = [
-            'likes' => $info->likes()->count(),
+            'subscribes' => $info->subscriptions()->count(),
         ];
 
         return $this->success($data);
@@ -171,7 +171,7 @@ class CrowdfundController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return mixed
      */
-    public function unlike(Request $request)
+    public function unsubscribe(Request $request)
     {
         $user = config('crowdfund.Api')::user();
 
@@ -182,7 +182,7 @@ class CrowdfundController extends Controller
             return $this->failed('未找到数据');
         }
 
-        $res = $user->unlike($info);
+        $res = $user->unsubscribe($info);
 
         return $this->success('取消关注成功');
     }

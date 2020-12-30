@@ -20,8 +20,8 @@ Route::group([
     'middleware' => config('api.route.middleware_auth'),
 ], function (Router $router) {
     $router->get('ajax/crowdfundcategory', 'AjaxController@category');
-    $router->post('crowdfunds/like', 'CrowdfundController@like');
-    $router->post('crowdfunds/unlike', 'CrowdfundController@unlike');
+    $router->post('crowdfunds/subscribe', 'CrowdfundController@subscribe');
+    $router->post('crowdfunds/unsubscribe', 'CrowdfundController@unsubscribe');
 
     $router->get('crowdfunds/create', 'CrowdfundController@create');
     $router->post('crowdfunds', 'CrowdfundController@store');

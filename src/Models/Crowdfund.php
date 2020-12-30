@@ -5,6 +5,7 @@ namespace XuanChen\CrowdFund\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Overtrue\LaravelSubscribe\Traits\Subscribable;
 use XuanChen\CrowdFund\Models\Traits\BelongsToCompany;
 use XuanChen\CrowdFund\Models\Traits\HasCovers;
 use Jason\Address\Traits\HasArea;
@@ -16,7 +17,7 @@ class Crowdfund extends Model
     use HasCovers,
         BelongsToCompany,
         HasArea,
-        Likeable,
+        Subscribable,
         SoftDeletes,
         Notifiable;
 
